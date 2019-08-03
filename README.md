@@ -6,7 +6,7 @@ RandomSound is a custom node which can play from a random AudioStreamPlayer and 
 Recommended usage is to instance a scene from RandomSound.tscn.  It registers itself as a class, but may not automatically create the appropriate "Channels" node to store channels for playback if instanced from the New Node dialog.  Place your AudioStreamPlayers into the root of RandomSound.  **Do NOT place nodes in `Channels` as these are subject to be dynamically reallocated when the number of channels changes.**
 
 # Features planned...?
-	* AudioStreamPlayer2D / 3D
-	* Playing all children in an AudioStreamPlayer together
-	* Nested `RandomSound`s
+* AudioStreamPlayer2D / 3D
+* Playing all children in an AudioStreamPlayer together
+* Nested `RandomSound`s
 	
