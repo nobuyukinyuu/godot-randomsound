@@ -6,16 +6,30 @@ export(bool) var play_rnd setget play
 export(int, 1, 5) var channels = 1 setget set_channels
 export(float, 0.0, 1.0) var pitch_variation = 0
 export(float) var base_pitch = 1
-export(float, -15, 0) var base_volume = 0
+export(float, -15, 4) var base_volume = 0
 
 var currentChannel = 0
 var isReady = false
 
+#Toolscript magic to add the scene components when importing from "Add child node"
+func _enter_tree():
+	if !get_node_or_null("Channels"):
+		print("RandomSound:  Replacing scene with proto")
+		call_deferred("_replace")
+	else:
+		print("RandomSound:  I have channels...", get_child_count())
+func _replace():
+	print("RandomSound:  ReplaceBy")
+	replace_by(load("res://sys/RandomSound.tscn").instance())
+
+
+
 func _ready():
-	print("Setting up RandomSound..")
-	set_meta("_editor_icon", preload("res://addons/RandomSound/icon_random_sound.svg"))
+	print("Setting up RandomSound..", name)
+	set_meta("_editor_icon", preload("res://sys/icon_random_sound.svg"))
 	isReady = true
 
+	channel_check()
 
 func set_channels(val):
 	channels = val
@@ -33,6 +47,7 @@ func set_channels(val):
 	for i in channels:
 		var p:AudioStreamPlayer = AudioStreamPlayer.new()
 		p.name = str(i)
+		p.pause_mode = Node.PAUSE_MODE_PROCESS
 		
 		
 		$Channels.add_child(p)
@@ -41,7 +56,7 @@ func set_channels(val):
 
 func play(val=true):
 	if !isReady:  
-#		print("Can't play sound, not ready.  Try again?")
+		print("Can't play sound, not ready.  Try again?")
 		return
 	channel_check()
 
@@ -95,10 +110,13 @@ func play(val=true):
 func channel_check():
 	#class_name doesn't preserve the parent scene if not an inherited scene.  Fix it.
 	if !get_node_or_null("Channels"):
-		var p = Node.new()
-		p.name = "Channels"
-		add_child(p)
-		p.owner = self
+#		var p = Node.new()
+#		p.name = "Channels"
+#		add_child(p)
+#		p.owner = self
+		return
+		pass
+
 
 	if channels <= 0:  
 		print ("ChannelCheck:  Channels are 0.  set channels to 1.")
