@@ -20,13 +20,13 @@ func _enter_tree():
 		print("RandomSound:  I have channels...", get_child_count())
 func _replace():
 	print("RandomSound:  ReplaceBy")
-	replace_by(load("res://sys/RandomSound.tscn").instance())
+	replace_by(load("res://addons/RandomSound/RandomSound.tscn").instance())
 
 
 
 func _ready():
 	print("Setting up RandomSound..", name)
-	set_meta("_editor_icon", preload("res://sys/icon_random_sound.svg"))
+#	set_meta("_editor_icon", preload("res://sys/icon_random_sound.svg"))
 	isReady = true
 
 	channel_check()
